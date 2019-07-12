@@ -1,0 +1,130 @@
+BASIC STRUCTURE OF HTML DOCUMENTS
+<!DOCTYPE html> --> Tells broswer this is an html doc + what version of html is being used
+
+<html> --> every html element has an open and closed element. tells broswer everything inside is html
+	
+	<head> 
+		<!--scripts, styles, meta information-->
+	</head>
+	
+	<body>
+		<!--the content of the page-->
+	</body>
+
+</html>
+
+
+SOME MAIN TAGS IN HTML
+-Some tags have to be closed (with a /)
+-Within the tags are many attributes that specify things about the content in the tag/what the content is doing
+
+<p> --> general tag
+<meta> --> tells broswer character encoding
+<title> --> appears at the top of the browser
+<div> --> everything in the the tag belongs together
+<li> --> list
+<header> --> represents a container for introductory content or a set of navigational links
+<nav> --> defines a set of naviagtion links
+<main> --> specifies the main content of a document
+<article> --> specifies independent self-contained content
+<aside> --> defines content other than the content it was placed in
+<footer> --> footer tag
+<audio> --> use this to have an audio control bar on the page + have the browser play audio
+<canvas> --> provides place in page to paint on in order to dispaly custom page
+<form> --> use this to post information from the broswer to server (text that a user enters in a text field)d
+<input> --> what a user clicks on when they want to send infromation to the server
+<video> --> can display a video in the broswer
+<script> --> includes script of code for various functions
+
+
+HTML WITH A FRAMEWORK
+-can use to generate html, connect to a database,...
+...look into more
+
+
+STYLE HTML w/ CSS
+-multiple methods
+
+CSS Syntax Selectors + Advanced Syntax
+
+CSS Priority
+-can create large and complex hierarchies in CSS
+
+CSS Preprocessors
+
+
+BASIC JAVASCRIPT
+document.write(a, b); --> to write/print something
+let [or] var --> establishes variable
+typeof(); --> prints what type of element the variable is
+
+Some Array Methods (Mostly same as Java):
+let values = [1, 2, 3]; --> creates an array
+values [0] --> element in array
+values.length --> length of array
+values.push(a) --> pushes element into an array (stacks/queues)
+values.pop(a) --> removes last element from an array (stacks/queues)
+values.shift(a) --> removes first element from an array
+values.splice(index of element, how many elements to delete, any elements you want to add) --> deletes values from array
+
+Switch Statement
+Ex. let state = "RI"
+	
+	switch(state) {
+		case "NY":
+			document.write("New York");
+			break;
+		case "RI":
+			document.write("Rhode Island");
+			break;
+	}
+
+Objects
+Ex. let person = {
+		name: "John", --> items in object called properties (of different types)
+		age: 32,
+		partTime: false,
+};
+console.log(person.name) --> access property within object
+
+Array of Objects
+Ex. let cards = [
+		{
+			suit: "Hearts",
+			value: "Queen"
+		},
+
+		{
+			suit: "Clubs",
+			value: "King"
+		}
+];
+console.log(cards[1].value) --> outputs value (.suit outputs suit)
+
+Common Built-In Objects
+	Math
+	Date
+	String
+	Number
+
+
+GENERAL NOTES
+-Watch for reserved keywords in JavaScript
+-Simple rules for strings, operators, loops, arrays, etc. are the SAME AS JAVA
+-(+) symbol can also be used for concatination of strings
+-Be aware of funky calculation outputs
+-JavaScript initializes variables as undefined (not manually set)
+-If trying to blank out a variable by oneself, set it to null (not undefined)
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,310 @@
+CREATING JAVASCRIPT OBJECTS
+
+Object Literals to Create JS Objects + JS Dynamics
+	var cat = { name: "Fluffy", color: "White"};
+	cat.age = 3; --> no need to go back into object literal and change anything
+	cat.speak = function() { display("Meeoowww") } --> can use console.log, or something else instead of the dsisplay() function
+
+	display(cat.name); // Fluffy
+	display(cat.age); // 3
+	cat.speak() // Meeoowww
+
+[WORKS THE SAME AS]
+
+	var cat = {
+		name: "Fluffy",
+		color: "White",
+		speak: function() { display("Meeoowww") }
+	}
+	cat.age = 3
+	cat.speak()
+
+Constructor Functions to Create JS Objects
+	function Cat(name, color) {
+		this.name = name
+		this.color = color
+	}
+	var cat = new Cat("Fluffy", "White"); --> creates new, empty JS object. then sets the context of this to that new object, and finally calls the Cat function. the Cat(); fucntion does not return anything alone, new is also doing that
+	display(cat)
+
+Using Object.create() to Create JS Objects
+	-can do most of everything above with the object.creeate() method
+	-Ex. var cat = Object.create(Object.prototype, 
+		 	{
+		 		name: "Fluffy",
+		 		enumerable: true,
+		 		writable: true,
+		 		configurable: true,
+		 	},
+		 	color: {
+		 		value: "White",
+		 		enumerable: true
+		 		writable: true
+		 		configurable: true
+		 	}
+		  })
+		  display(cat)
+
+Using ECMAScript 6 Classes to Create JS Objects
+	-just a different, maybe more framiliar, way to format classes. creating objects in the same way as above
+	-Ex. class Cat {
+		 	constructor(name, color) {
+		 	this.name = name
+		 	this.color = color
+			}
+		 	speak() {
+				display("Meeoowww")
+		 	}
+	     }
+		 var cat = new Cat("Fluffy", "White");
+		 display(cat)
+		 cat.speak()
+
+
+
+JAVASCRIPT PROPERTIES
+
+Bracket Notation for JS Properties
+	var cat = {
+		name: "Fluffy"
+		color: "White"
+	}
+	cat["Eye Color"] = "Green" --> creating a property with bracket notation
+
+	display(cat.color) --> dot notation to look at cat's color property
+	display(cat["color"]) --> same exact output thing as dot notation
+		-Mainly used for creating properties with uncommon names/unvalid identifiers
+			-Ex. display(cat["Eye Color"]) = "Green"
+
+JS Property Descriptors
+	var cat = {
+		name: "Fluffy"
+		color: "White"
+	}
+	display(Object.getOwnPropertyDescriptor(car, "name")) --> Prints out property descripton for the property on the object
+
+Writeable Attribute
+	var cat = {
+		name: "Fluffy"
+		color: "White"
+	}
+	Object.defineProperty(cat, "name", {writable: false}) --> can change property attriubtes with this method
+		-With the writable property being false, you cannot change the property
+	display(Object.getOwnPropertyDescriptor(car, "name")) 
+
+	var cat = {
+		name: {first: "Fluffy", last: "LaBeouf"},
+		color: "White"
+	}
+	cat.name.first = "Scratchy" --> change property of an object that the name property is pointing too
+	display(cat.name) 
+
+Enumerable Attribute
+	-can use the for...in loop to loop ober each of the properties object
+	-setting enumerable to false on a property makes it so the property does not show up in the object's keys (Object.keys()). 
+		-Object.defineProperty(cat, "name", {enumerable: false})
+	-Ex. var cat = {
+		 	name: {first: "Fluffy", last: "LaBeouf"},
+		 	color: "White"
+		 }
+		 for (var propertyName in cat) {
+		 	display(propertyName + ": " + cat[propertyName]) --> each time going through the loop, it return the name of the property and assigns it to the propertyName variable\
+		 	// color: White
+		 }
+
+Configurable Attribute
+	-locks down a property to prevent certain attributes from being changed if false
+	-also prevents the property from being deleted from the object and prevents the enumerable from being abel to change if false
+		-so, by setting configurable to false, none of those remain true
+			-Object.defineProperty(cat, "name", {configurable: false})
+
+Getters and Setters
+	-attributes on a property that allow you to specfiy the retun valuye of a property using a function and set the value of a proeprty using a function
+	-Ex. var cat = {
+		 	name: {first: "Fluffy", last: "LaBeouf"},
+		 	color: "White"
+		 }
+		 Object.defineProperty(cat, "fullName", --> have to use defineProperty function
+		 	{
+		 		get: function() { --> getter
+		 			return thus.name.first + " " + this.name.last
+		 		},
+		 		set: function(value) { --> setter
+		 			var nameParts = value.split(" ")
+		 			this.name.first = nameParts[0]
+		 			this.name.lsat = nameParts[1]
+		 		}
+		 	})
+		 cat.fullName = "Muffin Top"
+		 display(cat.fullName) // Muffin Top
+		 display(cat.name.first) // Muffin
+		 display(cat.name.last) // Top
+
+
+
+JAVASCRIPT PROTOTYPES
+
+Getting Started with JS Prototypes
+	var arr = ["red, "blue", "green"]
+	var arr2 = ["one", "two", "three"]
+
+	Object.defineProperty(arr, "last", {get: function () {
+		return this[this.length-1]
+	}})
+
+	display(arr.last) // green
+	display(arr2.last) // undefined --> DOESN"T WORK... so need to add prototype to the object.defineProperty...
+
+
+	Object.defineProperty(Array.prototype, "last", {get: function () { --> with adding the Array.protoype, it applies to all the arrays
+		return this[this.length-1]
+	}})
+
+What is a Prototype?
+	-a prototype is an object that exists on every function in JS
+	-by default, prototypes are just empty objects
+	 	-a prototype is notlike a class, it is an object. so, when a functuon is created, it gets a prototype object created and attached to it behind the scenes
+	 	-if that function is used as a constructor function, its object gets a __proto__ property that points to the same object that is the functions prototype 
+	-objects do not have a prototype property, it is undefined
+		-objects have a proto __proto__ property
+	-adding a property to a functions prototype affects all objects constructed using that function
+
+Instance v. Prototype Properties
+	-if you ask an object for the value of one of its properties, just becasue it gives you an answer doesn't mean the object has that property. it could one of the prototypes in its prototype chain returning that value
+	-everything with properties are true with functions (w/ methods) also
+		-functions are ultimatley really just another property
+	-Ex. function Cat(name, color) {
+		 	this.name = name
+		 	this.color = color
+		 	color: "White"
+		 }
+		 cat.prototype.age = 3
+
+		 var fluffy = new Cat("Fluffy", "White")
+		 var muffin = new Cat("Muffin", "Brown"
+
+		 fluffy.age = 5
+
+		 display(fluffy.age) // 5
+		 display(muffin.age) // 3
+		 display(fluffy.__proto__.age) // 3
+
+Grapchical Overview of Prototypes
+https://app.pluralsight.com/player?course=javascript-objects-prototypes&author=jim-cooper&name=javascript-objects-prototypes-m3&clip=4&mode=live
+
+Changing a Function's Prototype
+	Formal Definitions
+		-a FUNCTION's prototype is the object instance that will become the prototype for all objects created using this function as a constructor
+		-an OBJECT's prototype is the object instance from which the object is inherited
+	-instaner property overrides the prototype property
+		-Ex. Cat.prototype.age = 4
+			 fluffy.age = 5
+
+			 console.log(fluffy.age) // 5
+	-Ex. function Cat(name, color) {
+		 	this.name = name
+		 	this.color = color
+		 	color: "White"
+		 }
+		 Cat.prototype.age = 4
+
+		 var fluffy = new Cat("Fluffy", "White")
+		 var muffin = new Cat("Muffin", "Brown")
+
+		 Cat.prototype = { age: 5 } --> creates new object in memory, and changed the functions prototype property to point to that object
+
+		 var snowball = new Car("Snowball", "White") --> is directed to the current prototype object (age: 5)
+
+		 display(fluffy.age) // 4
+		 display(muffin.age) // 4
+		 display(snowbell.age) // 5
+		 display(CAt.prototype.age) // 5
+
+Multiple Levels of Inheritance
+	-all objects have a prototype inheritance chain
+
+Creating Your Own Prototypal Inheritance Chain (!!! — main lines to worry about when creating prototype chain)
+	function Animal() {
+		this.voice = voice || "grunt"
+	}
+	Animal.prototype.speak = function() { --> any function tht uses Animal as its prototype will get the speak function automatically
+		display(this.voice)
+	}
+
+	function Cat(name, color) {
+		Animal.call(this, "Meow") --> (!!!) calls the animal function passing in the cat being constructed
+		this.name = name
+		this.color = color
+	}
+	Cat.prototype = Object.create(Animal.prototype) --> (!!!) assigning Animal as the prototype for the Cat function. use object.create because object.create will not call the Animal function; it'll just set that function as a protottype and set up the chain
+		-this also sets the constructor function to be animal. fix that with the line below
+	Cat.prototype.constructor = Cat (!!!)
+	var fluffy = new Cat("Fluffy", "White")
+
+	fluffy.speak()
+
+Creating Prototypes with Classes
+	-can create the same type of prototypal inheritance chains with a class-like syntazx
+	-Ex. class Animal {
+			constructor(voice) {
+				this.voice = voice || "Grunt"
+			}
+
+			speak() {
+				display(this.voice)
+			}
+		 
+		 class Cat extends Animal {
+		 	constructor(name, color) {
+		 		super("Meow")
+		 		this.name = name
+			    this.color = color
+		 	}
+		 }
+		 
+		 var fluffy = new Cat("Fluffy", "White")
+		 display(function)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

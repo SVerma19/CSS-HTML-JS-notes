@@ -1,0 +1,639 @@
+ALWAYS BEST TO RUN IN STRICT MODE --> "use strict"
+
+CONSTANT
+symbol that won't change throughout the program
+Ex. const carID = 42; --> correct way to use a constant
+	const carID; --> will not work, constant must be initialized
+	carID = 100; --> will create an error, constant cannot be changed
+
+
+LET & VAR
+-programs run top to bottom, have to initialize the variable before refrencing it/calling it somewhere else
+	-Doing this and using let will give "error"
+	-Doing this and using var will give "undefined", not technically an error
+-Cannot refrence let outside of a code-block (ex. inside the brackets of an "if" statement) -- let has "block" scoping, once outside the code-block/brackets, the let variable does not exist
+-Can refrence var outside of code block
+
+
+REST PARAMETERS
+-allows a function to store multipel arguments in a songle array
+-Ex. function sendCars(day, ...allCarIds) {
+		carIds.forEach( id => console.log(id));
+	 }
+	 sendCard("Monday", 100, 200, 555);
+	 	-arguments in sendCars will get sotred in the allCarIds as a parameter
+	 	-rest parameters (...parameter) has to go last if using it
+
+
+DESTRUCTURING ARRAYS
+-allows to easily assign the values within an array to variables
+-Ex. let carIds = [1, 2, 5];
+	 let [car1, car2, car3] = carIds;
+	 console.log(car1, car2, car3);
+	 // 1 2 5
+
+	 let carIds = [1, 2, 5];
+	 let car1, remainingCars;
+	 [car1, ...remainingCars] = carIds;
+	 console.log(car1, remaining Cars);
+	 // 1 2 5
+	 	-remainingCars will hold the rest of the ids
+	 	-including comma at the beginning of the bracket with this sytax, with no variable in front of it, will skip the first 
+	 	number when outputting/printing
+
+
+DESTRUCTURING OBJECTS
+-slightly different syntax than doing this with arrays
+-Ex. let car = {id: 5000, style: "convertible"};
+	 let {id, style} = car;
+	 console.log(id, style);
+	 // 5000 convertible 
+
+
+SPREAD SYNTAX
+-allows to take an array and spread its elements so they can be assigned to parameters
+-spread syntax does the opposite of a rest paramter. takes the carIds array and spreads it/breaks it apart out into various parameters
+-Ex. function startCard(car1, car2, car3) {
+	 console.log(car1, car2, car3);
+	 }
+	 let carIds = [100, 300, 500];
+	 startCars(...carIds);
+	 // 100 300 
+[OR]
+	 let carCodes = "abc"
+	 startCars(...carCodes);
+	 // a b c
+-CAN use rest and spread parameters at the same time
+-Ex. function startCard(car1, car2, car3, ...rest) {
+	 console.log(rest);
+	 }
+	 let carIds = [1, 2, 3, 4, 5, 6];
+	 startCars(...carIds);
+	 // 4 5 6
+
+
+TYPEOF()
+-helps find the type of a variable, constant, literal value, etc...
+-Ex. typeof(1); // number
+	 typeof(true); // boolean
+	 typeof(function(){}); // function
+	 typeof({}); // object
+	 typeof("null"); // object
+	 typeof("undefined"); // undefined
+	 typeof(NaN); // number (NaN = Not a Number)
+
+
+COMMON TYPE CONVERSIONS
+-convert to string:
+	foo.toString();
+-convert string to integer:
+	Number.parseInt("55"); // 55, as a number
+-convert string to number:
+	Number.parseFloat("55.99"); // 55.99, as a number
+	Number.parseFloat("55.88ABC"); // 55.88, as a number
+	Number.parseFloat("ABC55.88"); // NaN (has to start as a number)
+-can use typeof() to be sure of the type of what you are converting before and after
+
+
+CONTROLLING LOOPS
+-Ex. for (let i = 0; i < 12; i++) {
+	 	if (i === 8) {
+	 	break; --> stops loops/breaks it/exits it early @ 8
+	 	}
+	 }
+	 console.log(i); 
+	 // 8
+-Ex. for (let i = 0; i < 4; i++) {
+	 	if (i === 2) {
+	 	continue; --> allows the loop to continue executing after the condition. when the continue executes console.log(i) does not execute (in this example, "2" is skipped, and then the execution continues)
+	 	}
+	 }
+	 console.log(i); 
+	 // 0 1 3
+
+
+EQUALITY OPERATORS
+-let us compare two values to see if they're equal
+-can output boolean value (check if true or false)
+-Ex. if (var1 == var2) { }
+	-JS is going to attempt these variables to be the same type
+-Ex. if (var 1 === var2) { }
+	-JS is not going to attempt to make the type converstions
+	-The type of the variables have to be the same and the values have to be equal
+	-"Strict" equality operator
+-Ex. if (var1 != var2) { }
+	-JS attempts to make the type conversion
+-Ex. if (var1 !== var2) { }
+	-JS is not going to attempt to make the type converstions
+	-The type of the variables have to be the same
+
+UNARY OPERATORS
+-operators operate on a single value or variable
+-Ex. var1 = 5;
+	 ++var1; // var1 = 6 --> increments the variable (BEFORE its use)
+	 var1++; // var1 = 5 --> incrememnts the variable (AFTER its use in an expression -- the first expression it is being used in)
+     --var1
+	 var--
+	 -don't need to put the ++/-- after the variables use, automatically registers it from before
+-Ex. var1 = 5
+	 +var1 --> can convert a string into a numeric type. does NOT make it positive
+	 -var1 = -5; --> converts it to opposite sign
+
+
+LOGICAL (BOOLEAN) OPERATORS
+-if ((var1 > 5) && (var2 < 100)) { } --> Logical AND operator. Both conditions need to be true
+- if ((var1 > 5) || (var2 < 100)) { } --> Logical OR operator. One of the conditions needs to be true
+-&& symbol/operator has a higher priority than ||
+	-Solution: (). Parenthesis have highest order
+-can use logical operators outside of a 
+	-var1 && var2
+		-result with be var1 if both objects are true
+	-var1 || var2
+		-much more common than &&, not in conditional 
+		-if var1 is false (undefined, or null), var2 will be the result
+		-Ex. let userSettings = null;
+			 let defaultSettings = {name: "Default"};
+			 console.log(userSettings || defaultSettings);
+			 // "Default"
+	-!var1 -->  NOT symbol
+		-will convert var1 into a boolean value, and then flip it (makes expression false)
+
+
+RELATIONAL OPERATORS
+<, >, >=, <=
+-issue comes when comaparing strings
+	-Ex.  "Zoo" < "alphabet"
+		  // true (becasue all of the uppercase letters are considered less than the lowercase characeters)
+	-can fix this with the toUpperCase() function
+
+
+CONDITIONAL OPERATORS
+-JS has a conditional operator that can be used in the place of if
+-Ex. var result = (foo > 5) ? true : false
+
+
+ASSIGNMENT OPERATORS
+-Ex. var1 += 10 --> var1 = var1 + 10
+	 var1 -= 10 --> var1 = var1 - 10
+	 var1 *= ...
+	 var1 /= ...
+	 var1 %= (modulo) ...
+
+
+OPERATOR PRECEDENCE
+devloper.mozilla.org for precedence table
+
+
+FUNCTION SCOPE
+-talking about variables that can be accessed within a fuction/nested function. important to know "lifetime" of these variables
+-Ex. function startCar(carId) {
+	 	let message = "Starting...";
+	 	let startFn - function turnKey() {
+	 	}
+	 	startCar(123);
+	 	console.log(message); // error --> message is out of scope
+-Ex. function startCar(carId) {
+	 	let message = "Starting...";
+	 	let startFn - function turnKey() {
+	 		let message = "Override";
+	 	}
+	 	startFn();
+	 	console.log(message); // Starting... --> second variable message is out of scope
+	 }
+	 startCar(123);
+
+
+BLOCK SCOPE
+-block of code is code placed in between braces. block scope is lifetime of variables as they are placed inside curly braces
+-Ex. let message = "Outside";
+	 if (5 == 5) {
+	 	let message = "Equal";
+	 	console.log(message); // Equal --> this let message is inside the scope of the code block
+	 }
+	 console.log(message) // Outside --> this let message is decalred outside the code block so it is inside the scope
+
+
+IIFE's (IMMEDIATELY INVOKED FUNCTUON EXPRESSION)
+-Ex. function() {
+	 	console.log("in function");
+	 	}
+	 -function will NOT execute, does not have a name and it is not being called
+-Ex. (function() {
+	 	console.log("in function");
+	 	})();
+	 -putting the body of the function in paranthesis and adding a set of paranthesis at the end immeditaley invokes the function
+-Ex. let app = (function() {
+		let carId = 123;
+	 	console.log("in function");
+	 	return { }; --> return value of an IIFE (in this case an empty object) is very important because that is what gets assigned to app
+	 	})();
+	 console.log(app); // { }
+	 -assigning the funnction to a variable
+
+
+CLOSURES
+-the combination of a function and the lexical environment within which that function was declared
+-Ex. let app = (function() {
+		let carId = 123;
+	 	let getId = function() :
+	 		return carId;
+	 	};
+		return { 
+			getId: getId --> this is how to create a closure. return an object with the property (getId... doesn't have to be the same as the function name, but it usually is) has a value of the function. variable app gets assigned to the return value of the IIFE, that includes refrence to the function getId()
+				-properties are the values associated with a JavaScript object. a JS object is a collection of unordered properties. properties can usually be changed, added, and deleted, but some are read only.
+		};
+	  })();
+	  console.log(app.getId()); // 123
+
+
+THE THIS KEYWORD
+-special object called a context for the object itself
+-every function gets associated with the this object. the object is usually the object where the function is defined
+-Ex. let fn = function() {
+	 	console.log (this == window); --> this is a keyword within functions and window is a global object
+	 };	
+	 fn(); // true
+-Ex. let o = {
+	 	carId: 123,
+	 	getId: function() {
+	 		return this.carId; --> this keyword refers to the object carId that holds the function
+	 	}
+	  };
+	  console.log (o.getId()); // 123
+
+
+CALL AND APPLY
+-main purpose is to change the value of "this". change the object which is the context of the function
+-Ex. let o = {
+	 	carId: 123,
+	 	getId: function() {
+	 		return this.carId; --> this keyword refers to the object carId that holds the function
+	 	}
+	  };
+	  let newCar = { carId: 456 }; --> an object literal is a comma-separated list of name-value pairs wrapped in curly braces. object literals encapsulate data, enclosing it in a tidy package. O
+	  	-object literal property values can be of any data type, including array literals, functions, and nested object literals.
+	  	-the object literal syntax — { key: value, otherKey: otherValue };
+	  console.log((o.getId.call(newCar)); // 456 --> passes console.log the new context
+-Ex. let o = {
+	 	carId: 123,
+	 	getId: function(prefix) { --> accept prefix as a parameter
+	 		return prefix + this.carId --> return prefix as well as this.carId
+	 	}
+	  };
+	  let newCar = { carId: 456 };
+	  console.log((o.getId.apply(newCar, ["ID: "]))); // ID: 456 --> apply is similar to call, but with apply you can pass arguments. along with passing it the new context, we pass it an array. ["ID: "] becomes the prefix inside the function
+
+
+BIND
+-call bind on a function to make a copy of that function and also assigns a new context
+-Ex. -Ex. let o = {
+	 	carId: 123,
+	 	getId: function() {
+	 		return this.carId;
+	 	}
+	  };
+	  let newCar = { carId: 456 }; 
+	  let newFn = o.getId.bind(newCar); --> makes copy of the getId function, and passes it the new context
+	  console.log(newFn); // 456
+
+
+ARROW FUNCTIONS
+-Ex. let getId = () => 123;
+-Ex. let getId = prefix => prefix + 123; --> prefix (the parameter) does not need to be parenthesis because there is just one prefix
+-Ex. let getId = (prefix, suffix) => prefix + 123 + suffix; --> more than one parameter, need parenthesis
+	 console.log(getId("ID: ", "!")); // ID: 123!
+-Ex. let getId = (prefix, suffix) => {
+	 	return prefix + 123 + suffix
+	 };
+	 console.log(getId("ID: ", "!")); // ID: 123!
+
+
+DEFAULT PARAMETERS
+-way to take parameter an give it a default value
+-Ex. let trackCar = function(carId, city = "NY") { --> how to set a default value for a parameter. if city is not sepcified, its default value will be "NY"
+	-all of the default values have to be listed on the right of the parameter list
+		console.log("Tracking ${carId} in ${city}."); --> way to interpelate variables
+	 };
+	 console.log(track(123)); // tracking 123 in NY
+	 console.log(trackCar(123, "Chicago")); // tracking 123 in Chicago
+
+
+CONSTRUCTOR FUNCTIONS -------------------->>>>>>>>>>>>>??????????????????
+-used to instantiate new objects
+-Ex. function Car(id) {
+	 	this.carId = id;
+	 }
+	 let car = new Car(123); --> creates a new Car() object. the function also gets a brand-new, empty context
+	 console.log(car.carId); // 123
+-Ex. function Car(id) {
+	 	this.carId = id;
+	 	this.start = function() { --> called a method (if it is used on an object)
+	 	console.log("start: " + this.carId);
+	 	};
+	 }
+	 let vehicle = new Car(123);
+	 vehicle.start(); // start: 123
+
+
+PROTOTYPES (BASICS/COMMON USES)
+-Ex. function Car(id) {
+	 	this.carId = id;
+	 }
+	 Car.prototype.start = function() { --> car has a property called prototype and you are able to add methods directly onto prototype (like start)
+	 	-makes it so there is only one fucntion, no matter the number of objects
+	 	console.log("start: " + this.carId);
+	 };
+	 let vehicle = new Car(123);
+	 vehicle.start(); // start: 123
+
+
+EXPANDING OBJECTS USING PROTOTYPES
+-expand objects and give new functionality to all instances of an object
+-Ex. String.prototype.hello = function() {
+	 	return this.toString() (--> returns the string itself) + "Hello";
+	 };
+	 console.log("foo".hello()); // foo Hello
+
+
+JSON (JAVASCRIPT OBJECT NOTATION)
+-to transmit JS objects over the wire, sending it to an API or something
+-Ex. let car = {
+	 	id: 123,
+	 	style: "convertible"
+     };
+     console.log(JSON.stringify(car)); --> convert the JS to JSON by using the global JSON object. pass the car object through the new method and it converts it to the string below
+     // {"id":123, "style":"convertible"} --> string looks a lot like object literal, however the quotations around ALL strings make a difference
+-Ex. let carIds = [
+	 	{ carId: 123 },
+	 	{ carId: 456 },
+	 	{ carId: 789 },
+	 ];
+	 console.log(JSON.stringify(carIds));
+	 // [{"carId":123}, {...}, {...}]
+-Ex. let jsonIn = [
+	 	{ "carId": 123 },
+	 	{ "carId": 456 },
+	 	{ "carId": 789 },
+	 ];
+	 let carIds = JSON.parse(jsonIn); --> parse JSON code into a regular, JS object
+	 console.log(carIds);
+	 // [{"carId":123}, {...}, {...}]
+
+
+ARRAY ITERATION
+-okay to use for loop to iterate the array, but there are other methods that can be used
+-Ex. let carIds = [
+	 	{ carId: 123, style: "sedan"}l
+	 	{ carId: 456, style: "convertible"},
+	 	{ carId: 789, style: "sedan"}
+     ];
+     carIds.forEach(car => console.log(car)); --> forEach calls a function for each element of the array (using arrow function to log out car)
+     	-"simple and more modern way of calling a for loop/iterating through the array"
+     carIds.forEach((car, index) => console.log(car, index));
+-Ex. let carIds = [
+	 	{ carId: 123, style: "sedan"}l
+	 	{ carId: 456, style: "convertible"},
+	 	{ carId: 789, style: "sedan"}
+     ];
+     let convertibles = carIds.filter( --> will loop through the entire array and call this function. each element will be assigned to car, one at a time
+     	car => car.style === "convertible"
+     );
+     console.log(convertibles); // carId: 456
+-Ex. let carIds = [
+	 	{ carId: 123, style: "sedan"}l
+	 	{ carId: 456, style: "convertible"},
+	 	{ carId: 789, style: "sedan"}
+     ];
+     let result = carIds.every( --> returns true or false depending on the condition applies to the entire array
+     	car => car.carId > 0
+     );
+     console.log(result);
+-Ex. let carIds = [
+	 	{ carId: 123, style: "sedan"}l
+	 	{ carId: 456, style: "convertible"},
+	 	{ carId: 789, style: "sedan"}
+     ];
+     let result = carIds.find( --> locates the first match of something in an array. finds the first instance of the condition
+     	car => car.carId > 500
+     );
+     console.log(result);
+
+
+CLASS BASICS
+-classes "special" functions, and just as you can define function expressions and function declarations, the class syntax has two components: class expressions and class declarations.
+-use class keyword to create classes in JS
+-Ex. class Car {
+	 
+	 }
+	 let car = new Car(car);
+
+
+CONSTRUCTORS AND PROPERTIES
+-https://stackoverflow.com/questions/11970141/javascript-whats-the-difference-between-a-function-and-a-class
+-constructor is a function that gets executed when a new instance of a class gets created
+-Ex. class Car {
+	 	constructor(id) { --> creates a constructor that contains various objects
+	 		this.Id = id; --> object
+	 	}
+
+	 }
+	 let car = new Car(123);
+	 console.log(car.id); // 123
+
+
+METHODS
+-methods are functions that exist on an object
+-Ex. class Car {
+	 	constructor(id) { 
+	 		this.Id = id; --> contains the information of the object
+	 	}
+	 	identify() { --> method
+	 		return "Car Id: ${this.id}";
+	 	}
+	 }
+
+	 }
+	 let car = new Car(123); --> the 123 is refrences by the id parameter above
+	 console.log(car.identify()); // Car Id: 123
+
+
+INHERTIANCE
+-Ex. class Vehicle {
+		constructor() {
+			this.type = "car"; --> setting default
+		}
+		start() {
+			return "Starting: ${this.type}"
+		}
+	 }
+
+	 class Car extends Vehicle { --> the keyword extend, extends the vehicle class and gives this class all of the vehicle classes functionality. all that needs to be in the Car class is code unique to Car
+	 }
+	 let car = new Car();
+	 console.log(car.type); // car
+	 	-can't include constructor in this class because there is already one in the parent class. if you wanted to include a constructor it would need to include super();... same goes for methods (like start())
+	 	-if you include another start() method, it will log out whatever class you are calling it from
+
+
+CREATING AND IMPORTING A MODULE
+-uses classes within modules to organize the classes
+-use the keyword export in order to export the class into another (index.js) file
+-Ex. import { Car } from "./models/car.js"
+	-how to import class information using the import keyword
+
+
+WINDOW OBJECT
+-the global object in javascript
+-has various properties and methods
+
+
+TIMERS
+-timers fire asynchronously
+-used for animation, to handle things with UI, for video games, etc.
+-Ex. let timeoutId = setTimeout( function() { --> passing setTimeout(); two arguments, one function, and one other argument (1000)
+	 	console.log("1 second passed");
+	 }, 1000);
+	 clearTimeout(timeoutId); --> using the timeoutId variable and the clearTimeout function cancels the timeout
+-setInterval() is the same thing, except it keeps firing off/repeating over-and-over until it gets stopped
+
+
+LOCATION OBJECT
+-part of the BOM (browser object model)
+-has various properties and methods
+
+
+DOCUMENT OBJECT
+-part of the DOM (document object model)
+-has various properties, methods, and events
+
+
+SELECTING DOM ELEMENTS
+-Ex. docuemnt.getElemensById()
+-Ex. document.getElementByClassName()
+-Ex. document.getElementByTagName()
+-many more methods, but these are the most common to retrieve elements
+
+
+MODIFYING DOM ELEMENTS
+-in order to modify an element, need to call/select the element first
+-Ex. let element = document.getElementById("elementId");
+	 	element.textContent = "text";
+	 	element.setAttribute("name", "nameValue");
+	 	element.classList.add("myClassName");
+	 	element.style.color = "blue";
+
+
+TRY AND CATCH
+-Ex. try { --> it will try to execute the code here, and if there is an error the catch block will catch it
+		let car = newCar; --> error: newCar is undefined
+	 } catch (error) { --> if the catch block catches an error, it stops
+running the code in the try block and allows everything to continue to run after it
+	 	console.log("error: ", error);
+	 }
+	 console.log("continuing..."); // continuing...
+
+
+FINALLY
+-finally block ALWAYS executes
+-Ex. try { 
+		let car = null;
+	  } catch (error) { 
+	 	console.log("error: ", error);
+	  } finally {
+	  	console.log("this always executes");
+	  }
+
+
+DEVELOPER DEFINED ERRORS
+-use throw keyword to throw an error
+
+-Ex. try { 
+		throw new Error("my custom error"); --> creating a new Error object. since we are throwing an error, it will be caught in our catch block
+	  } catch (error) { 
+	 	console.log("error: ", error);
+	  } finally {
+	  	console.log("this always executes");
+	  }
+
+
+CREATING AA PROMISE
+-designed to work with asynchronous JS, like a timer, HTTP calls, etc.
+-promise is a temporary holder for a value you will retrive once an asynchronous operation completes
+-promises are about handling a success value or an error value from some asynchronous operation
+-Ex. let promise = new Promise( --> creating a promise and passing it one argument, a function. function will execute immediatley once the promise is created
+	 	function(resolve, reject) {
+	 		setTimeout(resolve, 100, "someValue"); --> sets up a timer where the resolve function will be called after 100 miliseconds. passing resolve the argument "someValue". if there was an error, use reject instead of resolve
+	 	}
+	  );
+
+
+SETTLING A PROMISE
+-promise represents a value we don't have immediate access too. when we are able to obtain the value of a promise, it's considered settling a promise
+-Ex. let promise = new Promise( 
+	 	function(resolve, reject) {
+	 		setTimeout(resolve, 100, "someValue"); 
+	 	}
+	  );
+	  promise.then( --> execute this function in order to get value of function. almost always need this function when working with promises
+	  	value => console.log("fulfilled: " + value), --> will execute once the promise is fulfilled/resolved successfully
+	  	error => console.log("rejected: " + error), --> will execute if there is some kind of error/if the promise is rejected
+	  );
+
+
+STILL HAVE TO FINISH (IF NECESSARY/WANTED):
+Forms
+Security and Building for Production
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
