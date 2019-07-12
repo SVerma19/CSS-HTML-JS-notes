@@ -1,0 +1,286 @@
+GETTING STARTED
+	-to import jQuery into a script/HTML
+		-go to jquery.com, download the appropriate version and add the script into the HTML/webpage
+		-Ex. <head>
+			 	<script type="type/javascript" sec="jquery-3.4.1.js"></script>
+			 <head>
+
+
+USING CONTENT DELIVERY NETWORKS (CDN)
+
+
+THE JQUERY READY() FUNCTION
+	-Once jQuery is loaded, the window object has a property called jQuery. can use that object directly, or an alias of the word jQuery — the dollar sign ($)
+	-Ex. <script type="text/javascript">
+		 	$(document).ready(function() { --> detects when a page has loaded and is ready to use (doesn't account for images, videos, etc... it just matters when the DOM gets loaded)
+				$("#myContent").html("Hello World"); --> # = id selector.. does the equivalent of getElementById in Vanilla JS
+														 .html has the abilioty to change the html
+			});
+		 </script>
+
+		 <body
+		 	<div id="myContent">
+		 		My jQuery enables page!
+		 	</div>
+		 <body>
+
+
+JQUERY DOCUMENTATION
+	-https://api.jquery.com
+
+
+WHAT ARE SELECTORS?
+	-a selector is a way to select a node (element, tag) from the DOM
+	-selector syntax
+		-Ex. $(selectorExpression)
+			 jQuery(selectorExpression)
+
+
+SELECTING NODES BY TAG NAME
+	-just like Vanilla JS, can make jQuery functions/selectors variables
+	-$("p") --> selects all <p> elements
+	-$("a") --> selects all <a> elements
+		-$("p, a, span") --> returns all three tags using one single command/collection
+	-to select all descendents of an ancestor --> $("ancestor descendant") 
+		-Ex. $("table tr") --> returns all tr elements that are descendants of the table element
+
+
+FUNCTIONS FOR TAG NAME SELECTOR
+	-Ex. $(document).ready(function() {
+		 	$("div").css("background-color", "green");
+		 }
+			-don't have to loop through anything
+			-it will automatically alter the background-color property to green under any HTML/CSS with a div tag. will influence the style attribute you'd normally alter in HTML/CSS
+	-Ex. $(document).ready(function() {
+		 	$("div").each(function() { --> loops through each item... for each item that is returned...
+		 		alert($(this).html()); --> "this" represents the item you're looping through
+		 	});
+		 });
+		 	-as it iterates through each div tag, it pops up in an alert in the browser
+
+
+SELECTING NODES BY ID
+	-fastest type of selector
+	-$("#myID") --> selects element <p id="myID"> based on the id tag
+
+
+FUNCTIONS FOR ID SELECTOR
+	-Ex. $(document).ready(function() {
+		 	$("#TestDiv").html());
+		 });
+		 	-makes the browser send an alert with what is contained in the tag with id="TestDiv"
+
+
+SELECTING NODES BY CLASS NAME
+	-scans the whole DOM for class, makes it take longer if it needs to run through a lot
+	-$(".myClass") --> selects element <p class="mClass"> based on the class tag
+	-can combine class selecting nodes by class name with element/tag names 
+		-$("a.myClass") --> selects onlt <a> tags with class="mClass"
+
+
+FUNCTIONS FOR CLASS NAME SELECTOR
+	-Ex. $(document).ready(function() {
+		 	$("div.BlueDiv").css("border", "2px solid red") --> finds div tag that matches tthe BlueDiv class and changes it to the css requirements written
+		 });
+
+
+SELECTING NODES BY ATTRIBUTE VALUE
+	-use brackets [attribute] to select based on attribute name and/or attribute value
+	-Ex. $('a[title]') --> selects all <a> elements that have the title attribute
+	-Ex. $('a[title]') --> selects all <a> elements that has the title attribute — "Progamming Info" 
+
+
+FUNCTIONS FOR ATTRIBUTE VALUE SELECTOR
+	-Ex. $(document).ready(function() {
+		 	alert($("div[title="Div Title"]").length) --> browser provides an alert with the length of what is in the div tag where there is a title, "Div Title"
+		 }) 
+
+
+SELECTING INPUT NODES
+	-$(":input") --> colon input selects all elements that qualify as an input, including: input, select, textarea, button, image, radio, etc... (can do this with more specific thigns too, like :button, :img...)
+	-Ex. $(":input[type="radio"]") 
+
+
+INPUT SELECTOR DATA
+	-Ex. $(document).ready(function() {
+			var inputs = $(":input");
+			alert($inputs[1].val()) --> inputs[1] gets the first input child; .val() ties the command to the value in that input tag (val is a jQuery function, so the object (inputs[1]) has to be wrapped with jQuery)
+		});
+	-To get to all the values of the form input/input tags, you have to iterate through them
+		-Ex. $(document).ready(function() {
+			 	$(":input").each(function() { --> use .each() to iterate through the array (like a "for" loop)
+			 		var elem = $(this);
+			 		alert(elem.val()) --> .val() gets the value of an input; putting a parameter in the paranthesis will set the value for whatever it is looping through
+			 	});
+			});
+
+
+ADDITIONAL SELECTOR FEATURES
+	-Ex. $("div:contains("pluralsight")") --> :contains() selects elements that match the contents within the contains exception
+	-Ex. $("tr:odd"), $("tr:even") --> selecting odd or even rows respectively
+	-Ex. $("span:first-child") --> selects first span (tag) within each parent (the first child)
+	-Ex. $("input[value="event"]") --> selects all elements with an attribute that has an EQUAl stated value
+	-Ex. $("input[value^="event"]") --> selects all elements with an attribute that STARTS with stated value
+	-Ex. $("input[value$="event"]") --> selects all elements with an attribute that ENDS with stated value
+	-Ex. $("input[value*="event"]") --> selects all elements with an attribute that CONTAIN the stated value (anywhere in the value statement)
+
+
+FUNCTIONS FOR ADDITIONAL SELECTOR FEATURES
+	-Ex. $(document).ready(function() {
+		 	$("#DataTable tr:odd").css("background-color,", "green") --> changes the css of every odd row, specifically makes the background color of each odd row green. #DataTable is adding more criteria — must have the id="DataTable"
+		 });
+	-Ex. $(document).ready(function() {
+		 	$("div[title*="Title"]").html("Updated Div Value") --> Changed the html value of any div with a title attribute that meets the requirements set
+		 });
+
+
+ITERATING THROUGH NODES
+		-.each(function(index, Element)) is used to iterate through jQuery objects
+			-equivalent of a "for" loop
+		-Ex. $("div1", "div2").each(function(index) { --> iterating through each div element and as that is happening, jQuery is calling them into the anonymous function. the function takes the parameter, index, and uses it directly
+			 	alert(index + "=" + $(this).text()) --> this is referencing the object. so, in this case, it is used to call the text from the specific div element being used in each "loop" (GOOD THIS EXPLANATION)
+			 });
+
+
+ITERATING THROUGH NODES DEMO
+	-good to cach out elements before running them through each statement/loop
+		-Ex. var output = $("#OutputDiv"); --> instead of trying to rewrite that statement throughout the inside of the each statement (and making the DOM have to look for it each time in the html), it is better to place it above the each statement/cach it out into a variable first
+	-when touching the DOM, it is good to do it as little as possible
+		-create variables and update the DOM at the end, outside the body of the each statement, after the string is built
+
+
+MODIFYING PROPERTIES AND ATTRIBUTES
+	-this.propertyName statement can be used to modify an object's properties directly
+		-Ex. $("div").each(function(i) {
+			 	this.title = "My Index =" + i; --> "this" not wrappes with jQuery wrapper. if wanted to do more with the "this" element, specifically somethinf to do with jQuery, need to wrap it
+			 });
+	-object attributes can be accessed using attr()
+		-Ex. var val = $("#CustomerDiv").attr("title"); --> retrieves the value of the title attribute
+		-.attr(attributeName, value) --> method used to access an object's attributes and modify the value
+			-Ex. $("img").attr("title", "My Image Title"); --> jQuery will automatically update every "img"'s title attribute 
+		-to modify multiple attributes, pass a JSON object containing name/value pairs
+			-Ex. $("img").attr({
+				 	title: "My Image Title",
+				 	style: "Border: 2px solid black"
+				 });
+
+
+MODIFYING PROPERTIES AND ATTRIBUTES DEMO
+	-object chaining. this works as a format to do everything in one shot by passing a JSON object after selecting a certain element ("div"):
+	$("div")
+	 	.attr(
+	 		{
+	 			title: "My Image Title",
+				style: "Border: 2px solid black"
+			}
+		)
+		.css("background-color", "yellow")
+		.css("color", "yellow")
+	 });
+
+
+ADDING AND REMOVING NODES
+	-to remove nodes from an element use .remove()
+		-Ex. $(".phone, .location").remove() --> removes all nodes attached to the class "phone" or "location"
+	-There are 4 key methods that handle the insertion into elements:
+		-.append(), .appendTo() --> appends to the bottom of the existing children
+		-.prepend(), .prependTo() --> put it at the beginning of the children
+	-APPEND (PREPEND FOLLOWS THE SAME PRINCIPLES)
+		-Ex. $("<span>(office)</span>").appendTo("<span>(office)</span>").appendTo(".officePhone");; 
+		[OR]
+		-Ex. $(".officePhone").append("<span>(office)</span>");
+			-both result in the html (office) being added into each .officePhone class element
+	-the .wrap() function
+		-Ex. <div class="state">Arizona</div>
+			 $(."state").wrap("<div class="US_State"/>"); --> finds everything with the "state" class and wraps it in the "US_State" div
+
+
+ADDING AND REMOVING NODES DEMO
+	-*NOTE* can set jQuery elements as variables to make things easier
+		-Ex. var tcd = $("#TableContainerDiv");
+	-For functions liek .attr() and .wrap(), there are functions like .removeAttr() and .unwrap()... be aware of that
+
+
+MODIFYING STYLES
+	-$("div").css("color", "red")
+	-like the .attr() function. can do everything in one shot with brackets by passing a JSON object after selecting a certain element
+
+
+MODIFYING CLASSES
+	-there are 4 main methods for working with CSS Class attributes
+		-.addClass() --> adds class. if there is no class attribute in the DOM element, it will simply add the class. if there is, it's like adding a space between two classes or more
+			-Ex. $("p").addClass("classOne classTwo"); --> adds two classes (can add one or multiple)
+		-.hasClass() --> checks if it has class (returns true or false)
+			-Ex. if ($("p").hasClass("classOne")) { --> checks if it has the class first, then runs the code in the "if-statement" block				 }
+		-.removeClass() --> removes all classes off a node, or a single class
+			-Ex. $("p").removeClass("classOne") --> removes class (or multiple if wanted)
+		-.toggleClass() --> turns a class on and off based on if its there or not
+			-alternates adding or removing a class based on the current presence or absence of the class
+			-for times you want to ADD a class when it is NOT THERE, and REMOVE it when it is THERE
+			-Ex. $("#PhoneDetails").toggleClass("highlight")
+
+
+HANDLING EVENTS 
+	-there is an entire library of event shortcuts in jQuery like: click(), blur(), focus(), keydown(), mouseup(), dblclick(), etc...
+	-there is an event object (Ex. event.data) that allows you to get to different proeprties of the event being referenced
+	-the .click(handler(eventObject)) is used to listen for a click event or trigger a click event on an element
+		-Ex. $("#myID").click(function() {
+			 	alert("The element myID was clicked");
+			 });
+		 -Ex. $("#otherID").click(function() {
+		 	  	$("#myID").click() --> this event will be triggered to happen when the other thing is clicked. click is not just for getting data, it can trigger events on other objects as well
+			  });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
